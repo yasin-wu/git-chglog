@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/coreos/go-semver/semver"
-	gitcmd "github.com/tsuyoshiwada/go-gitcmd"
+	"github.com/tsuyoshiwada/go-gitcmd"
 )
 
 type tagReader struct {
@@ -31,10 +31,10 @@ func (r *tagReader) ReadAll() ([]*Tag, error) {
 	out, err := r.client.Exec(
 		"for-each-ref",
 		"--format",
-		"%(refname)"+r.separator+"%(subject)"+r.separator+"%(taggerdate)"+r.separator+"%(authordate)",
+		"%(refname)"+r.separator+"%(subject)"+r.separator+"%(taggerdate:local)"+r.separator+"%(authordate)",
 		"refs/tags",
 	)
-
+	//git for-each-ref --format='%(refname)@@__CHGLOG__@@%(subject)@@__CHGLOG__@@%(taggerdate:local)@@__CHGLOG__@@%(authordate)' 'refs/tags'
 	tags := []*Tag{}
 
 	if err != nil {
